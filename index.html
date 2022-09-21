@@ -5,11 +5,41 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<script src="https://cdn.tailwindcss.com"></script>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 	<title>Projeto e-commerce</title>
 </head>
-<body>
-	<h1 class="text-3xl font-bold underline">
-		Hello world!
-	</h1>
+<style>
+body {
+	font-family: 'Fira Code', monospace;
+}
+</style>
+<body class="bg-gray-800">
+	<div class="container mx-auto px-10 pt-28">
+		<div class="w-100 flex justify-center">
+			<h1 class="text-4xl font-bold underline decoration-teal-600 text-white">
+				Hello world!
+			</h1>
+		</div>
+		<div class="w-100 flex justify-center pt-6">
+			<button id="clickMe" type="button" class="bg-gradient-to-r from-green-400 to-blue-500 py-2 px-4 hover:scale-105 font-semibold rounded">
+				Click!
+			</button>
+		</div>
+	</div>
+	<script>
+			var button = document.querySelector('#clickMe')
+			count = 0
+			console.log(document.querySelector('#clickMe'))
+			button.onclick = function() {
+				count += 1
+				if (count === 1) {
+					button.innerHTML = `I was clicked ${count} time`
+				} else {
+					button.innerHTML = `I was clicked ${count} times`
+				}
+			};
+		</script>
 </body>
 </html>
