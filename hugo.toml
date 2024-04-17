@@ -2,3 +2,4 @@ baseURL = 'https://emanuel-jsa.github.io/'
 languageCode = 'pt-br'
 title = 'GatoBabalu'
 theme = 'gatobabalu_theme'
+publishDir = "docs"
