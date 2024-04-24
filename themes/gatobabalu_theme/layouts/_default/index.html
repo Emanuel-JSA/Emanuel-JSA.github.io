@@ -1,6 +1,5 @@
 {{ define "main" }}
-    <h1>{{ .Title }}</h1>
-    {{ range .Pages }}
+    {{ range .Site.RegularPages }}
     <div class="content">
         <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
         <p>{{ .Summary }}</p>

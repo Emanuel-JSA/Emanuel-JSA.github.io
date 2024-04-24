@@ -1,0 +1,12 @@
+@import 'main.css';
+
+.body {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+@media only screen and (max-width: 1024px) {
+    body {
+        padding: 0 1rem;
+    }
+}

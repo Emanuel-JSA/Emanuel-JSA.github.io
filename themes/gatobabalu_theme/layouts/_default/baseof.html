@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ .Site.Title }}</title>
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+</head>
+<body>
+    {{ partial "navbar.html" . }}
+    <main class="body">
+        {{ block "main" . }}{{ end }}
+    </main>
+</body>
+</html>
