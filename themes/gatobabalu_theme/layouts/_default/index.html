@@ -1,8 +1,15 @@
 {{ define "main" }}
-    {{ range .Site.RegularPages }}
-    <div class="content">
-        <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
-        <p>{{ .Summary }}</p>
-    </div>
-    {{ end }}
+{{ range .Site.RegularPages }}
+<div class="content">
+	<h2>
+		<a href="{{ .Permalink }}">
+			{{ .Title }}
+			<spam class="title-hashtag">
+				#
+			<spam />
+		</a>
+	</h2>
+	<p>{{ .Summary }}</p>
+</div>
+{{ end }}
 {{ end }}

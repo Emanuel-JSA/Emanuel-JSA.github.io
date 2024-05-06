@@ -1,12 +1,9 @@
-@import 'main.css';
+@import 'core.css';
 
-.body {
-    max-width: 900px;
-    margin: 0 auto;
+.content{
+    padding: 1rem 0;
 }
 
-@media only screen and (max-width: 1024px) {
-    body {
-        padding: 0 1rem;
-    }
+.title-hashtag {
+    color: var(--color-secondary);
 }

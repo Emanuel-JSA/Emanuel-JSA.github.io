@@ -10,3 +10,20 @@
     --color-secondary: #00ff00;
     --color-tertiary: #0000ff;
 }
+
+
+* {
+    font-family: "Fira Sans", sans-serif;
+}
+
+body {
+    /* cores do tema claro */
+    background-color: #FFFFFA;
+    color: #000;
+}
+
+body.dark-theme {
+    /* cores do tema escuro */
+    background-color: #000;
+    color: #fff;
+}

@@ -2,25 +2,25 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>GatoBabalu</title>
-    <link>https://emanuel-jsa.github.io/</link>
+    <link>http://localhost:1313/</link>
     <description>Recent content on GatoBabalu</description>
     <generator>Hugo 0.125.0</generator>
     <language>pt-br</language>
-    <lastBuildDate>Sun, 01 Jan 2023 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://emanuel-jsa.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 28 Apr 2024 13:16:49 -0300</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Meu Novo Post</title>
-      <link>https://emanuel-jsa.github.io/posts/segundo/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      <guid>https://emanuel-jsa.github.io/posts/segundo/</guid>
-      <description>SEGUNDOOO! Este é o meu Segundo post.</description>
+      <title>Teste Teste</title>
+      <link>http://localhost:1313/posts/teste-teste/</link>
+      <pubDate>Sun, 28 Apr 2024 13:16:49 -0300</pubDate>
+      <guid>http://localhost:1313/posts/teste-teste/</guid>
+      <description>AAAA </description>
     </item>
     <item>
       <title>Meu Novo Post</title>
-      <link>https://emanuel-jsa.github.io/posts/primeiro/</link>
-      <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
-      <guid>https://emanuel-jsa.github.io/posts/primeiro/</guid>
-      <description>Olá, mundo! Este é o meu novo post.</description>
+      <link>http://localhost:1313/posts/segundo/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/segundo/</guid>
+      <description>SEGUNDOOO! Este é o meu Segundo post.</description>
     </item>
   </channel>
 </rss>

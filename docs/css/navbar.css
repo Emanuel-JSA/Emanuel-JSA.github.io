@@ -1,7 +1,13 @@
+@import 'core.css';
+
 .navbar {
-    padding: .5rem 1rem;
+    padding: 0.5rem 0 5rem 0;
+    min-width: auto;
     max-width: 900px;
     margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .navbar h1 {
@@ -10,4 +16,5 @@
 
 .navbar .logo {
     width: 200px;
+    color: aquamarine;
 }
