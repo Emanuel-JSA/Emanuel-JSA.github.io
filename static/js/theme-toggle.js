@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     function updateUI(isDarkTheme) {
         document.body.style.setProperty('--color-bg', isDarkTheme ? '#121212' : '#FFFFFA');
         document.body.style.setProperty('--color-text', isDarkTheme ? '#FFFFFA' : '#121212');
-        logoDark.style.display = isDarkTheme ? 'none' : 'block';
-        logoLight.style.display = isDarkTheme ? 'block' : 'none';
+        logoDark.style.display = isDarkTheme ? 'block' : 'none';
+        logoLight.style.display = isDarkTheme ? 'none' : 'block';
         moon.style.display = isDarkTheme ? 'none' : 'block';
         sun.style.display = isDarkTheme ? 'block' : 'none';
     }
