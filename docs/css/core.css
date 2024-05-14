@@ -25,6 +25,11 @@ body {
     color: var(--color-text);
 }
 
+body.dark-theme {
+    --color-bg: #121212;
+    --color-text: #FFFFFA;
+}
+
 body.light-theme {
     --color-bg: #FFFFFA;
     --color-text: #121212;
