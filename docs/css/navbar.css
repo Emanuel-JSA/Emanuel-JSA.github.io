@@ -1,0 +1,33 @@
+@import 'core.css';
+
+.navbar {
+    padding: 0.5rem 0 5rem 0;
+    min-width: auto;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media only screen and (max-width: 1024px) {
+    .navbar {
+        padding: 0 1rem;
+    }
+}
+
+.navbar h1 {
+    margin: 0;
+}
+
+.navbar .logo {
+    width: 200px;
+    color: aquamarine;
+}
+
+#theme-toggle {
+    cursor: pointer;
+    background: none;
+    border: none;
+    outline: none;
+}
