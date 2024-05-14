@@ -9,6 +9,9 @@
     --color-primary: #ff0000;
     --color-secondary: #ff934f;
     --color-tertiary: #0000ff;
+
+    --color-light: #FFFFFA;
+    --color-dark: #121212;
 }
 
 
@@ -18,15 +21,20 @@
 }
 
 body {
-    /* cores do tema claro */
-    background-color: #FFFFFA;
-    color: #131001;
+    background-color: var(--color-dark);
+    color: var(--color-light);
 }
 
 body.dark-theme {
-    /* cores do tema escuro */
-    background-color: #000;
-    color: #fff;
+    background-color: var(--color-light);
+    color: var(--color-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        --color-bg: var(--color-dark);
+        --color-text: var(--color-light);
+    }
 }
 
 .main-container {
