@@ -31,13 +31,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
         document.body.classList.toggle('dark-theme');
         document.body.classList.toggle('light-theme');
         void document.body.offsetWidth; // Trigger reflow
-        updateUI(!isCurrentlyDark);
         localStorage.setItem('theme', isCurrentlyDark ? 'light-theme' : 'dark-theme');
-
-        // Force reevaluation of CSS rules
-        const themeClass = isCurrentlyDark ? 'light-theme' : 'dark-theme';
-        document.body.classList.remove(themeClass);
+        updateUI(!isCurrentlyDark);
         void document.body.offsetWidth; // Trigger reflow
-        document.body.classList.add(themeClass);
     });
 });
