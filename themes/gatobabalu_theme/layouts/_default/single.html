@@ -1,12 +1,9 @@
-<!-- themes/seu_tema/layouts/_default/single.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ .Title }}</title>
-</head>
-<body>
-    <h1>{{ .Title }}</h1>
-    <p>Publicado em: {{ .Date.Format "02 Jan 2006" }}</p>
-    {{ .Content }}
-</body>
-</html>
+{{ define "title" }}{{ .Title }}{{ end }}
+
+{{ define "main" }}
+    <div>
+        <h1>{{ .Title }}</h1>
+        <p>{{ .Date.Format "January 2, 2006" }}</p>
+        <p>{{ .Content }}</p>
+    </div>
+{{ end }}

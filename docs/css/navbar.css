@@ -18,3 +18,10 @@
     width: 200px;
     color: aquamarine;
 }
+
+#theme-toggle {
+    cursor: pointer;
+    background: none;
+    border: none;
+    outline: none;
+}
