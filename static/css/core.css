@@ -26,8 +26,8 @@ body {
 }
 
 body.dark-theme {
-    background-color: #121212;
-    color: #FFFFFA;
+    --color-bg: #121212;
+    --color-text: #FFFFFA;
 }
 
 @media (prefers-color-scheme: dark) {
