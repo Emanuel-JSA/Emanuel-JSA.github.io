@@ -9,8 +9,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // Function to update UI elements based on the theme
     function updateUI(isDarkTheme) {
-        document.body.style.setProperty('--color-bg', isDarkTheme ? '#121212' : '#FFFFFA');
-        document.body.style.setProperty('--color-text', isDarkTheme ? '#FFFFFA' : '#121212');
         logoDark.style.display = isDarkTheme ? 'block' : 'none';
         logoLight.style.display = isDarkTheme ? 'none' : 'block';
         moon.style.display = isDarkTheme ? 'none' : 'block';
