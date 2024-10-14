@@ -1,9 +1,0 @@
-@import 'core.css';
-
-.content-summary{
-    padding: 2rem 0;
-}
-
-.title-hashtag {
-    color: var(--color-secondary);
-}
