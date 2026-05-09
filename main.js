@@ -1,7 +1,7 @@
-import { Renderer } from './renderer.js';
-import { World } from './world.js';
+import { Renderer } from "./renderer.js";
+import { World } from "./world.js";
 
-const canvas = document.getElementById('sky');
+const canvas = document.getElementById("sky");
 const renderer = new Renderer(canvas);
 const world = new World(renderer.cols, renderer.rows);
 
@@ -16,7 +16,7 @@ const DT_MAX = 100;
 // separado depois do draw, a tela ficaria preta até o próximo frame (visível
 // durante drag de janela no macOS).
 let needsResize = false;
-window.addEventListener('resize', () => {
+window.addEventListener("resize", () => {
   needsResize = true;
 });
 

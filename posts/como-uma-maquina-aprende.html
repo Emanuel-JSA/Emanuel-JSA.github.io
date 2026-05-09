@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Como uma maquina aprende?</title>
+        <link rel="stylesheet" href="../styles.css" />
+    </head>
+    <body>
+        <canvas id="sky"></canvas>
+        <div class="overlay">
+            <div class="post-page">
+                <a class="back-link" href="../index.html">← voltar</a>
+                <h1 class="post-title">Como uma maquina aprende?</h1>
+                <pre id="divider" class="divider"></pre>
+                <p class="post-body">Em breve.</p>
+            </div>
+        </div>
+        <script type="module">
+            const divider = document.getElementById("divider");
+            const probe = document.createElement("span");
+            probe.style.font = getComputedStyle(divider).font;
+            probe.style.visibility = "hidden";
+            probe.style.position = "absolute";
+            probe.style.whiteSpace = "pre";
+            probe.textContent = "-";
+            document.body.appendChild(probe);
+
+            function fillDivider() {
+                const charW = probe.getBoundingClientRect().width || 8;
+                const cs = getComputedStyle(divider);
+                const availW =
+                    divider.clientWidth -
+                    parseFloat(cs.paddingLeft) -
+                    parseFloat(cs.paddingRight);
+                const cols = Math.max(1, Math.floor(availW / charW));
+                divider.textContent = "-".repeat(cols);
+            }
+            fillDivider();
+            window.addEventListener("resize", fillDivider);
+        </script>
+        <script type="module" src="../main.js"></script>
+    </body>
+</html>

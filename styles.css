@@ -13,15 +13,13 @@ canvas {
 .overlay {
     position: fixed;
     inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
     pointer-events: none;
 }
 
 .container {
     width: 100%;
     max-width: 1000px;
+    margin: 0 auto;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -80,4 +78,68 @@ canvas {
     .ascii-bot {
         margin-top: 6em;
     }
+}
+
+.divider {
+    width: 100%;
+    max-width: 1000px;
+    margin: 1.5em auto 0;
+    padding: 0 20px;
+    box-sizing: border-box;
+    font-family: monospace;
+    font-size: clamp(14px, 1.2vw, 16px);
+    line-height: 1;
+    color: #ffffff;
+    white-space: pre;
+    overflow: hidden;
+}
+
+.posts {
+    width: 100%;
+    max-width: 1000px;
+    margin: 1em auto 0;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.post-title {
+    display: inline-block;
+    margin: 0;
+    font-family: monospace;
+    font-size: clamp(16px, 1.4vw, 20px);
+    font-weight: bold;
+    line-height: 1.4;
+    color: #ffffff;
+    text-decoration: none;
+    pointer-events: auto;
+}
+.post-title:hover {
+    text-decoration: underline;
+}
+
+.post-page {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 5% 20px 0;
+    box-sizing: border-box;
+}
+
+.back-link {
+    display: inline-block;
+    margin: 0 0 1.5em;
+    font-family: monospace;
+    font-size: clamp(14px, 1.2vw, 16px);
+    color: #4a9eff;
+    text-decoration: underline;
+    pointer-events: auto;
+}
+
+.post-body {
+    margin: 1em 0 0;
+    font-family: monospace;
+    font-size: clamp(14px, 1.2vw, 16px);
+    line-height: 1.6;
+    color: #ffffff;
+    max-width: 700px;
 }
