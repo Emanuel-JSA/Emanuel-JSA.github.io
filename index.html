@@ -3,80 +3,48 @@
     <head>
         <meta charset="UTF-8" />
         <title>sky</title>
-        <style>
-            html,
-            body {
-                margin: 0;
-                padding: 0;
-                overflow: hidden;
-                background: #1a1a1a;
-            }
-            canvas {
-                display: block;
-            }
-            #overlay {
-                position: fixed;
-                inset: 0;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                /*justify-content: center;*/
-                margin-top: 5%;
-                pointer-events: none;
-            }
-            #overlay pre {
-                margin: 0;
-                font-family: monospace;
-                font-size: clamp(6px, 1.1vw, 14px);
-                line-height: 1.2;
-                color: #ffffff;
-                white-space: pre;
-            }
-            #overlay p {
-                margin: 1em 0 0;
-                font-family: monospace;
-                font-size: clamp(14px, 1.2vw, 16px);
-                line-height: 1.6;
-                color: #ffffff;
-                text-align: center;
-            }
-            #overlay #bot {
-                margin-top: 4em;
-                will-change: transform;
-            }
-        </style>
+        <link rel="stylesheet" href="./styles.css" />
     </head>
     <body>
         <canvas id="sky"></canvas>
-        <div id="overlay">
-            <pre id="bem-vindo"></pre>
-            <p>
-                Me chamo Emanuel! gosto de ensinar robôs a resolverem
-                problemas.<br />
-                Desenvolvimento web &amp; mobile há 4+ anos.<br />
-                agora explorando machine learning no mestrado.
-            </p>
-            <pre id="bot"></pre>
+        <div class="overlay">
+            <div class="container">
+                <div class="intro">
+                    <pre id="bem-vindo" class="ascii-art"></pre>
+                    <p class="bio">
+                        Me chamo Emanuel! gosto de programar e de ensinar robôs
+                        a resolverem problemas
+                    </p>
+                    <p class="links">
+                        <a href="https://www.linkedin.com/in/emanuel-jsa/" target="_blank">linkedin</a>
+                        <span> | </span>
+                        <a href="https://github.com/Emanuel-JSA" target="_blank">github</a>
+                    </p>
+                </div>
+                <pre id="bot" class="ascii-art ascii-bot"></pre>
+            </div>
         </div>
         <script type="module">
             const res = await fetch("./assets/ascii-bem-vindo.txt");
             document.getElementById("bem-vindo").textContent = await res.text();
 
             const [defaultTxt, blinkingTxt, closedTxt] = await Promise.all([
-                fetch("./assets/ascii-bot-default.txt").then(r => r.text()),
-                fetch("./assets/ascii-bot-blinking.txt").then(r => r.text()),
-                fetch("./assets/ascii-bot-closed-eyes.txt").then(r => r.text()),
+                fetch("./assets/ascii-bot-default.txt").then((r) => r.text()),
+                fetch("./assets/ascii-bot-blinking.txt").then((r) => r.text()),
+                fetch("./assets/ascii-bot-closed-eyes.txt").then((r) =>
+                    r.text(),
+                ),
             ]);
 
             const bot = document.getElementById("bot");
             bot.textContent = defaultTxt;
 
-            // Flutuação: dois senos sobrepostos com frequências ligeiramente diferentes
-            const amp1  = 3 + Math.random() * 2;
-            const amp2  = 1 + Math.random() * 1;
+            const amp1 = 3 + Math.random() * 2;
+            const amp2 = 1 + Math.random() * 1;
             const freq1 = 0.0016 + Math.random() * 0.0004;
             const freq2 = 0.0025 + Math.random() * 0.0005;
-            let t = 0, lastTs = null;
+            let t = 0,
+                lastTs = null;
 
             function floatBot(ts) {
                 if (!lastTs) lastTs = ts;
@@ -87,19 +55,30 @@
             }
             requestAnimationFrame(floatBot);
 
-            // Piscada: default → blinking → closed → blinking → default, com tempos aleatórios
             function blink() {
                 bot.textContent = blinkingTxt;
-                setTimeout(() => {
-                    bot.textContent = closedTxt;
-                    setTimeout(() => {
-                        bot.textContent = blinkingTxt;
-                        setTimeout(() => {
-                            bot.textContent = defaultTxt;
-                            setTimeout(blink, 3000 + Math.random() * 5000);
-                        }, 120 + Math.random() * 60);
-                    }, 160 + Math.random() * 80);
-                }, 120 + Math.random() * 60);
+                setTimeout(
+                    () => {
+                        bot.textContent = closedTxt;
+                        setTimeout(
+                            () => {
+                                bot.textContent = blinkingTxt;
+                                setTimeout(
+                                    () => {
+                                        bot.textContent = defaultTxt;
+                                        setTimeout(
+                                            blink,
+                                            3000 + Math.random() * 5000,
+                                        );
+                                    },
+                                    120 + Math.random() * 60,
+                                );
+                            },
+                            160 + Math.random() * 80,
+                        );
+                    },
+                    120 + Math.random() * 60,
+                );
             }
             setTimeout(blink, 2000 + Math.random() * 3000);
         </script>
