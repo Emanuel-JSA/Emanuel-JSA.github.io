@@ -15,28 +15,27 @@
                 <p class="post-body">Em breve.</p>
             </div>
         </div>
-        <script type="module">
-            const divider = document.getElementById("divider");
-            const probe = document.createElement("span");
-            probe.style.font = getComputedStyle(divider).font;
-            probe.style.visibility = "hidden";
-            probe.style.position = "absolute";
-            probe.style.whiteSpace = "pre";
-            probe.textContent = "-";
-            document.body.appendChild(probe);
+        <script>
+            (function () {
+                const divider = document.getElementById("divider");
+                const probe = document.createElement("span");
+                probe.style.font = getComputedStyle(divider).font;
+                probe.style.visibility = "hidden";
+                probe.style.position = "absolute";
+                probe.style.whiteSpace = "pre";
+                probe.textContent = "-";
+                document.body.appendChild(probe);
 
-            function fillDivider() {
-                const charW = probe.getBoundingClientRect().width || 8;
-                const cs = getComputedStyle(divider);
-                const availW =
-                    divider.clientWidth -
-                    parseFloat(cs.paddingLeft) -
-                    parseFloat(cs.paddingRight);
-                const cols = Math.max(1, Math.floor(availW / charW));
-                divider.textContent = "-".repeat(cols);
-            }
-            fillDivider();
-            window.addEventListener("resize", fillDivider);
+                function fillDivider() {
+                    const charW = probe.getBoundingClientRect().width || 8;
+                    const containerW = Math.min(window.innerWidth, 1000);
+                    const availW = Math.max(0, containerW - 40);
+                    const cols = Math.max(1, Math.floor(availW / charW));
+                    divider.textContent = "-".repeat(cols);
+                }
+                fillDivider();
+                window.addEventListener("resize", fillDivider);
+            })();
         </script>
         <script type="module" src="../main.js"></script>
     </body>
