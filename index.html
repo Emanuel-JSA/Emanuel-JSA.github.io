@@ -2,112 +2,20 @@
 <html lang="pt-BR">
     <head>
         <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#1a1a1a" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+        <link rel="manifest" href="/manifest.webmanifest" />
         <title>sky</title>
         <link rel="stylesheet" href="./styles.css" />
     </head>
     <body>
         <canvas id="sky"></canvas>
         <div class="overlay">
-            <div class="container">
-                <div class="intro">
-                    <pre id="bem-vindo" class="ascii-art"></pre>
-                    <p class="bio">
-                        Me chamo Emanuel! gosto de programar e de ensinar robôs
-                        a resolverem problemas
-                    </p>
-                    <p class="links">
-                        <a href="https://www.linkedin.com/in/emanuel-jsa/" target="_blank">linkedin</a>
-                        <span> | </span>
-                        <a href="https://github.com/Emanuel-JSA" target="_blank">github</a>
-                    </p>
-                </div>
-                <pre id="bot" class="ascii-art ascii-bot"></pre>
-            </div>
-            <pre id="divider" class="divider"></pre>
-            <div class="posts">
-                <a class="post-title" href="./posts/como-uma-maquina-aprende.html">Como uma maquina aprende?</a>
-            </div>
+            <main id="view"></main>
         </div>
-        <script>
-            (function () {
-                const divider = document.getElementById("divider");
-                const probe = document.createElement("span");
-                probe.style.font = getComputedStyle(divider).font;
-                probe.style.visibility = "hidden";
-                probe.style.position = "absolute";
-                probe.style.whiteSpace = "pre";
-                probe.textContent = "-";
-                document.body.appendChild(probe);
-
-                function fillDivider() {
-                    const charW = probe.getBoundingClientRect().width || 8;
-                    const containerW = Math.min(window.innerWidth, 1000);
-                    const availW = Math.max(0, containerW - 40);
-                    const cols = Math.max(1, Math.floor(availW / charW));
-                    divider.textContent = "-".repeat(cols);
-                }
-                fillDivider();
-                window.addEventListener("resize", fillDivider);
-            })();
-        </script>
-        <script type="module">
-            const res = await fetch("./assets/ascii-bem-vindo.txt");
-            document.getElementById("bem-vindo").textContent = await res.text();
-
-            const [defaultTxt, blinkingTxt, closedTxt] = await Promise.all([
-                fetch("./assets/ascii-bot-default.txt").then((r) => r.text()),
-                fetch("./assets/ascii-bot-blinking.txt").then((r) => r.text()),
-                fetch("./assets/ascii-bot-closed-eyes.txt").then((r) =>
-                    r.text(),
-                ),
-            ]);
-
-            const bot = document.getElementById("bot");
-            bot.textContent = defaultTxt;
-
-            const amp1 = 3 + Math.random() * 2;
-            const amp2 = 1 + Math.random() * 1;
-            const freq1 = 0.0016 + Math.random() * 0.0004;
-            const freq2 = 0.0025 + Math.random() * 0.0005;
-            let t = 0,
-                lastTs = null;
-
-            function floatBot(ts) {
-                if (!lastTs) lastTs = ts;
-                t += ts - lastTs;
-                lastTs = ts;
-                bot.style.transform = `translateY(${amp1 * Math.sin(freq1 * t) + amp2 * Math.sin(freq2 * t)}px)`;
-                requestAnimationFrame(floatBot);
-            }
-            requestAnimationFrame(floatBot);
-
-            function blink() {
-                bot.textContent = blinkingTxt;
-                setTimeout(
-                    () => {
-                        bot.textContent = closedTxt;
-                        setTimeout(
-                            () => {
-                                bot.textContent = blinkingTxt;
-                                setTimeout(
-                                    () => {
-                                        bot.textContent = defaultTxt;
-                                        setTimeout(
-                                            blink,
-                                            3000 + Math.random() * 5000,
-                                        );
-                                    },
-                                    120 + Math.random() * 60,
-                                );
-                            },
-                            160 + Math.random() * 80,
-                        );
-                    },
-                    120 + Math.random() * 60,
-                );
-            }
-            setTimeout(blink, 2000 + Math.random() * 3000);
-        </script>
-        <script type="module" src="./main.js"></script>
+        <script type="module" src="./src/main.js"></script>
     </body>
 </html>

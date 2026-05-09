@@ -19,6 +19,13 @@ canvas {
     pointer-events: none;
 }
 
+#view {
+    flex: 1;
+    overflow-y: auto;
+    pointer-events: auto;
+    min-height: 0;
+}
+
 .container {
     width: 100%;
     max-width: 1000px;
@@ -87,7 +94,6 @@ canvas {
     width: 100%;
     max-width: 1000px;
     margin: 1.5em auto 0;
-    padding: 0 20px;
     box-sizing: border-box;
     font-family: monospace;
     font-size: clamp(14px, 1.2vw, 16px);
@@ -101,7 +107,6 @@ canvas {
     width: 100%;
     max-width: 1000px;
     margin: 1em auto 0;
-    padding: 0 20px;
     box-sizing: border-box;
 }
 
