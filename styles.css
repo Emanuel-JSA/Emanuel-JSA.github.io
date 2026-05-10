@@ -163,3 +163,7 @@ canvas {
 #loss-graph {
     color: #ffffff;
 }
+
+.article-body {
+    margin-bottom: 8rem;
+}
