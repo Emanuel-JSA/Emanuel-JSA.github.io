@@ -1,4 +1,100 @@
+<style>
+    #eq_family {
+        font-weight: bold;
+        color: #59b292;
+    }
+    #eq_min {
+        font-weight: bold;
+        color: #ff6b35;
+    }
+    #eq_loss {
+        font-weight: bold;
+        color: #6fd1d7;
+    }
+</style>
+
 <article>
     <h1 class="post-title">Como uma maquina aprende?</h1>
-    <p class="post-body">Em breve.</p>
+    <p class="post-body">
+        A questão é que o aprendizado aqui não parece ter muita correlação com a
+        experiência humana, o próprio termo emprestado da psicologia não faz
+        muito sentido. Estamos usando uma nomenclatura humana para descrever um
+        processo mecânico.
+    </p>
+
+    <p class="post-body">
+        A ideia não é desafiar a utilidade das tão famosas IAs, mas sim explorar
+        como elas “aprendem”, se elas realmente aprendem algo, e como esse termo
+        cria um problema epistêmico que enviesa nossa análise sobre a
+        materialidade desses artefatos. Além disso, vocês vão ver como esse
+        processo de “aprendizado” é elegante, engenhoso e intuitivo.
+    </p>
+
+    <p class="post-body">
+        Na prática, quando falamos em aprendizado de máquina, podemos
+        generalizar em três componentes: uma
+        <span id="eq_family">família de modelos</span> candidatos, uma
+        <span id="eq_loss">função de perda</span>, isso é um jeito de medir o
+        quão longe a resposta do modelo está do que se espera e um
+        <span id="eq_min">otimizador</span>, aquele que vai ajustar o modelo
+        para diminuir esse erro.
+    </p>
+
+    <p class="equation">
+        $$f^* = \mathop{\color{#FF6B35}{\arg\min}}\limits_{\color{#59B292}{f \in
+        \mathcal{F}}} \color{#6FD1D7}{\tilde{L}(f)}$$
+    </p>
+
+    <p class="post-body">
+        Ou seja, nosso objetivo é <span id="eq_loss">minimizar o erro</span> de
+        uma previsão, <span id="eq_min">otimizando</span> o
+        <span id="eq_family">modelo </span> cada iteração.
+    </p>
+
+    [graph animation here]
+    
+    <p class="post-body">
+        O que um ChatGPT faz é exatamente isso: é um motor estocástico ajustado
+        sobre uma quantidade massiva de texto que produz saídas reproduzindo
+        padrões estatísticos encontrados nos dados, não compreendendo sentido.
+        Por isso, uma pergunta boba como "quantos 'a' tem em 'exatamente'?"
+        quebra o modelo. Uma atividade tão trivial como contar quantas letras
+        tem cada palavra não está presente no conjunto de dados de treino; ele
+        não tem como se adaptar a essa possibilidade.
+    </p>
+    <p class="post-body">
+        No fundo, ele prevê qual é o token mais provável de vir em seguida. Todo
+        o “aprender” consiste em se ajustar para que essa predição se aproxime
+        cada vez mais da distribuição estatística observada nos dados. Não há,
+        em momento algum, um entendimento de sentido, uma conexão entre algo
+        (concreto ou abstrato) e uma experiência consciente externa.
+    </p>
+    <p class="post-body">
+        Aqui podemos ser mais radicais e observar que tal processo não se
+        assemelha em nada ao aprendizado humano; computadores não aprendem. Eles
+        se adaptam a dados através de força bruta ou algum ajuste estatístico.
+    </p>
+    <p class="post-body">
+        E caso você ache que seres humanos são assim, simples “computadores de
+        carne”, temos aqui um processo interessante onde a gente humaniza
+        máquinas e mecaniza humanos. Afinal, a terminologia que usamos molda
+        como entendemos aquele fenômeno, quando antropomorfizamos esses
+        artefatos, atribuindo agência e nos dirigindo a eles como indivíduos,
+        nos distanciamos do que eles realmente são.
+    </p>
+    <p class="post-body">
+        Para ficar um pouco mais claro, vamos olhar para o artigo de Anoush
+        Margaryan (Copenhagen Business School) publicado na Technology in
+        Society, que torna essa diferença concreta. Margaryan propõe a tabela
+        abaixo, que confronta os mecanismos, processos e propriedades do
+        aprendizado humano com aquilo que algoritmos de ML efetivamente fazem:
+    </p>
+    <p class="post-body">
+        Podemos imaginar tecnologias futuras que superem essas limitações
+        estruturais, mas no momento podemos aquietar um pouco da ansiedade
+        tecnológica sabendo o que esses artefatos de fato conseguem e não
+        conseguem fazer. Só assim conseguimos vê-los pelo que sempre foram:
+        máquinas. E máquinas, a gente projeta, audita, regula e, eventualmente,
+        desliga.
+    </p>
 </article>

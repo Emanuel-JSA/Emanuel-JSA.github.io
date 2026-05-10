@@ -3,13 +3,26 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#1a1a1a" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
-        <link rel="manifest" href="/manifest.webmanifest" />
         <title>sky</title>
         <link rel="stylesheet" href="./styles.css" />
+
+        <script>
+            window.MathJax = {
+                tex: {
+                    packages: { "[+]": ["color", "ams"] }, // Habilita o pacote de cores
+                    inlineMath: [["$", "$"]],
+                    displayMath: [["$$", "$$"]],
+                },
+                loader: {
+                    load: ["[tex]/color"], // Força o carregamento da extensão de cor
+                },
+                svg: { fontCache: "global" },
+            };
+        </script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"
+            async
+        ></script>
     </head>
     <body>
         <canvas id="sky"></canvas>

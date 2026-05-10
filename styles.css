@@ -153,5 +153,9 @@ canvas {
     font-size: clamp(14px, 1.2vw, 16px);
     line-height: 1.6;
     color: #ffffff;
-    max-width: 700px;
+}
+
+.equation {
+    color: #ffffff;
+    font-size: clamp(20px, 1.4vw, 22px);
 }
