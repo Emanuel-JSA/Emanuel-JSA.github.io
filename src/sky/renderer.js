@@ -1,4 +1,4 @@
-const FONT_SIZE = 14; // px (CSS)
+const FONT_SIZE = 14;
 const FONT = `${FONT_SIZE}px monospace`;
 const BG = "#1A1A1A";
 const FG = "#838383";
@@ -29,7 +29,7 @@ export class Renderer {
     this.ctx.fillStyle = FG;
 
     this.cellW = this.ctx.measureText("M").width;
-    this.cellH = FONT_SIZE; // locked: 1.0× (grid justinho)
+    this.cellH = FONT_SIZE;
 
     this.w = w;
     this.h = h;

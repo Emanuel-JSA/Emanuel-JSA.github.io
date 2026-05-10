@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-// Gera ícones PNG sólidos (#1a1a1a) para o manifest PWA.
-// Uso: node scripts/gen-icons.mjs
 import { deflateSync } from "zlib";
 import { writeFileSync, mkdirSync } from "fs";
 
@@ -61,7 +59,7 @@ function solidPNG(w, h, r, g, b) {
 
 mkdirSync("icons", { recursive: true });
 
-const [r, g, b] = [0x1a, 0x1a, 0x1a]; // #1a1a1a
+const [r, g, b] = [0x1a, 0x1a, 0x1a]; 
 
 writeFileSync("icons/icon-192.png", solidPNG(192, 192, r, g, b));
 writeFileSync("icons/icon-512.png", solidPNG(512, 512, r, g, b));

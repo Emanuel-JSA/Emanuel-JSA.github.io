@@ -1,8 +1,6 @@
 const DENSITY = 0.012;
 
-// Velocidade da fase em rad/ms. Distribuição enviesada (Math.random()²) deixa
-// a maioria das estrelas perto do MIN — ciclos longos — com cauda no MAX.
-const PHASE_SPEED_MIN = 0.00001; // ciclo ~10min (estrelas quase paradas)
+const PHASE_SPEED_MIN = 0.0001; // ciclo ~10min (estrelas quase paradas)
 const PHASE_SPEED_MAX = 0.0001;  // ciclo ~63s   (as "rápidas" ainda lentas)
 const PHASE_SPEED_BIAS = 2;      // expoente: maior = mais estrelas lentas
 

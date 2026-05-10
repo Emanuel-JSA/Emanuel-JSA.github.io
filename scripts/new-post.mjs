@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-// Cria um novo post e atualiza content/posts/index.json.
-// Uso: node scripts/new-post.mjs <slug> "<Título>"
 import { readFileSync, writeFileSync, existsSync } from "fs";
 
 const slug = process.argv[2];

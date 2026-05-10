@@ -1,7 +1,8 @@
-const CACHE = "sky-v2";
+const CACHE = "sky-v3";
 
 const STATIC = [
     "/",
+    "/index.html",
     "/styles.css",
     "/manifest.webmanifest",
     "/src/main.js",
@@ -41,13 +42,16 @@ self.addEventListener("activate", (e) => {
 });
 
 self.addEventListener("fetch", (e) => {
-    // Navegação: sempre serve o shell (index.html) para o router funcionar offline
     if (e.request.mode === "navigate") {
-        e.respondWith(caches.match("/").then((r) => r || fetch("/")));
+        e.respondWith(
+            caches.match("/")
+                .then((r) => r || caches.match("/index.html"))
+                .then((r) => r || fetch("/"))
+                .catch(() => fetch("/"))
+        );
         return;
     }
 
-    // Cache-first para todos os outros assets
     e.respondWith(
         caches.match(e.request).then((r) => r || fetch(e.request)),
     );

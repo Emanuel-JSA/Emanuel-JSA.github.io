@@ -1,13 +1,9 @@
-// Animação: gradient descent — regressão linear (esq.) + perda (dir.)
-// Cores: linha em #59b292, resíduos/perda em #ff6b35, pontos em roxo.
-
 export function mount(root) {
   const target = root.querySelector("#loss-graph");
   if (!target) return;
 
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Wrapper agrupa canvas ASCII + legendas
   const wrapper = document.createElement("div");
   target.appendChild(wrapper);
 
@@ -17,14 +13,12 @@ export function mount(root) {
     "line-height:1.2;margin:0;white-space:pre;overflow-x:auto;";
   wrapper.appendChild(pre);
 
-  // Linha de legendas abaixo do canvas
   const legendRow = document.createElement("div");
   legendRow.style.cssText =
     "display:flex;font-family:monospace;margin-top:0.75em;" +
     "font-size:clamp(11px,1vw,13px);align-items:baseline;";
   wrapper.appendChild(legendRow);
 
-  // Legenda esquerda: explica os elementos do gráfico de regressão
   const leftLegend = document.createElement("div");
   leftLegend.style.cssText = "flex:0 0 53%;";
   leftLegend.innerHTML =
@@ -33,7 +27,6 @@ export function mount(root) {
     `<span style="color:#ff6b35">│</span> resíduo (erro)`;
   legendRow.appendChild(leftLegend);
 
-  // Legenda direita: valor atual da perda em destaque
   const rightLegend = document.createElement("div");
   rightLegend.style.cssText = "flex:1;text-align:right;";
   const lossSpan = document.createElement("span");
@@ -54,7 +47,6 @@ export function mount(root) {
       return [x, y];
     });
 
-  // Painéis: 38 × 20 dados cada, gap de 4 colunas
   const ROWS = 24;
   const TOTAL_W = 84;
   const LP = { axc: 1, axr: 22, x0: 2, x1: 40, y0: 1, y1: 21 };
@@ -147,7 +139,6 @@ export function mount(root) {
       Array.from({ length: TOTAL_W }, () => ({ ch: " ", color: null })),
     );
 
-    // ── Painel esquerdo: regressão ────────────────────────────────────
     for (let r = 0; r <= LP.axr; r++) plot(g, r, LP.axc, "│");
     for (let c = LP.axc; c <= LP.x1 + 1; c++) plot(g, LP.axr, c, "─");
     plot(g, LP.axr, LP.axc, "└");
@@ -158,14 +149,12 @@ export function mount(root) {
     drawResiduals(g);
     for (const [x, y] of DATA) plot(g, lRow(y), lCol(x), "*", C_POINT);
 
-    // ── Painel direito: função de perda ───────────────────────────────
     for (let r = 0; r <= RP.axr; r++) plot(g, r, RP.axc, "│");
     for (let c = RP.axc; c <= RP.x1; c++) plot(g, RP.axr, c, "─");
     plot(g, RP.axr, RP.axc, "└");
     plot(g, 0, RP.axc + 1, "L");
     "iter".split("").forEach((ch, i) => plot(g, RP.axr + 1, RP.x1 - 3 + i, ch));
 
-    // Curva de perda
     for (let c = RP.x0; c <= RP.x1; c++) {
       const t = (c - RP.x0) / (RP.x1 - RP.x0);
       const i = Math.round(t * (MAX_ITER - 1));
@@ -174,7 +163,6 @@ export function mount(root) {
         if (r >= RP.y0 && r <= RP.y1) plot(g, r, c, ".", C_LOSS);
       }
     }
-    // Marcador @ na iteração atual
     if (hist.length > 0) {
       const i = hist.length - 1;
       const c = RP.x0 + Math.round((i / (MAX_ITER - 1)) * (RP.x1 - RP.x0));
@@ -182,12 +170,10 @@ export function mount(root) {
       if (r >= RP.y0 && r <= RP.y1) plot(g, r, c, "@", C_LOSS);
     }
 
-    // Atualiza legenda de perda abaixo do canvas
     lossSpan.textContent = hist.length > 0
       ? "perda " + hist[hist.length - 1].toFixed(4)
       : "perda —";
 
-    // Renderiza com innerHTML para suportar cores por célula
     const html = g.map((row) => {
       let line = "";
       let currentColor = null;

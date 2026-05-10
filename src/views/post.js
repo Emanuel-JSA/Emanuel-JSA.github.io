@@ -23,9 +23,6 @@ export async function mount(el, { slug }) {
   const divider = el.querySelector("#divider");
   if (divider) cleanups.push(mountDivider(divider));
 
-  // Tenta carregar JS específico do post (animações, interatividade).
-  // 404 é silencioso — post sem JS é o caso normal.
-  // Erros reais (sintaxe, runtime no mount) são logados.
   try {
     const mod = await import(`/content/posts/${slug}.js`);
     if (typeof mod.mount === "function") {
@@ -33,7 +30,9 @@ export async function mount(el, { slug }) {
     }
   } catch (e) {
     const msg = String(e?.message ?? e);
-    const isMissing = /Failed to fetch|Cannot find module|404|MIME type/i.test(msg);
+    const isMissing = /Failed to fetch|Cannot find module|404|MIME type/i.test(
+      msg,
+    );
     if (!isMissing) console.error(`[post:${slug}] erro carregando JS:`, e);
   }
 

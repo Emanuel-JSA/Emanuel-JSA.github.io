@@ -1,5 +1,3 @@
-// Animação do bot: float sinusoidal + blink state machine.
-// Independente do loop do canvas — roda no próprio rAF.
 export async function mountBot(el) {
     const [defaultTxt, blinkingTxt, closedTxt] = await Promise.all([
         fetch("/assets/ascii-bot-default.txt").then((r) => r.text()),

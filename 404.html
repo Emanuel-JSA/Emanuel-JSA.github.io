@@ -1,7 +1,5 @@
 <!doctype html>
 <script>
-    // GitHub Pages serve este arquivo para qualquer URL não mapeada.
-    // Salvamos o path e redirecionamos para o shell — o router cuida do resto.
     sessionStorage.setItem("spa-redirect", location.pathname);
     location.replace("/");
 </script>

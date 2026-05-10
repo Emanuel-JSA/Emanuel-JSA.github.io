@@ -4,7 +4,6 @@ import { route, start } from "./router.js";
 import * as home from "./views/home.js";
 import * as post from "./views/post.js";
 
-// Sky — inicia uma vez e sobrevive a toda navegação
 const canvas = document.getElementById("sky");
 const renderer = new Renderer(canvas);
 const world = new World(renderer.cols, renderer.rows);
@@ -31,7 +30,6 @@ function loop(timestamp) {
 }
 requestAnimationFrame(loop);
 
-// Router
 route("/", home);
 route("/posts/:slug", post);
 start();
