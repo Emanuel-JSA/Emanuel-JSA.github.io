@@ -1,4 +1,4 @@
-const CACHE = "sky-v1";
+const CACHE = "sky-v2";
 
 const STATIC = [
     "/",
@@ -18,6 +18,7 @@ const STATIC = [
     "/assets/ascii-bot-closed-eyes.txt",
     "/content/posts/index.json",
     "/content/posts/como-uma-maquina-aprende.html",
+    "/content/posts/como-uma-maquina-aprende.js",
     "/icons/icon-192.png",
     "/icons/icon-512.png",
     "/404.html",
