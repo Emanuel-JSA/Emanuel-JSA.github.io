@@ -8,7 +8,8 @@ export function mount(root) {
   target.appendChild(wrapper);
 
   const graphsRow = document.createElement("div");
-  graphsRow.style.cssText = "display:flex;justify-content:space-between;align-items:flex-start;";
+  graphsRow.style.cssText =
+    "display:flex;justify-content:space-between;align-items:flex-start;";
   wrapper.appendChild(graphsRow);
 
   const preCss =
@@ -68,7 +69,15 @@ export function mount(root) {
   // primeiras iterações bem lentas para mostrar o início da descida,
   // depois acelera (como no exemplo do Manim)
   const stepMs = (s) => (s < 3 ? 500 : s < 8 ? 300 : 180);
-  const PAUSE_MS = 2500;
+  const PAUSE_MS = 5000;
+
+  // faixas de display (math segue em [0,1])
+  const T_MIN = 15,
+    T_MAX = 40; // °C
+  const S_MIN = 20,
+    S_MAX = 200; // sorvetes/dia
+  const fmtTemp = (x) => Math.round(T_MIN + x * (T_MAX - T_MIN)) + "°C";
+  const fmtSorv = (y) => Math.round(S_MIN + y * (S_MAX - S_MIN));
 
   const C_LINE = "#59b292";
   const C_RESID = "#ff6b35";
@@ -80,6 +89,7 @@ export function mount(root) {
   let step = 0;
   let lastStepTs = 0;
   let doneTs = -1;
+  let highlight = null;
 
   const mse = () => {
     let s = 0;
@@ -100,6 +110,18 @@ export function mount(root) {
     b -= 0.08 * ((2 * db) / n);
     hist.push(mse());
     step++;
+  };
+
+  // destaca o ponto mais à direita sobre a reta convergida — "a XX°C, ~YY sorvetes"
+  const computeHighlight = () => {
+    const xMax = Math.max(...DATA.map(([x]) => x));
+    const yPred = w * xMax + b;
+    return {
+      x: xMax,
+      y: yPred,
+      msg1: `a ${fmtTemp(xMax)}, o modelo prevê`,
+      msg2: `~${fmtSorv(yPred)} sorvetes/dia`,
+    };
   };
 
   const mkGrid = (W) =>
@@ -154,9 +176,78 @@ export function mount(root) {
       const rMin = Math.min(rowData, rowFit);
       const rMax = Math.max(rowData, rowFit);
       for (let r = rMin; r <= rMax; r++)
-        if (r >= LP.y0 && r <= LP.y1 && r !== rowData)
-          pL(r, col, "│", C_RESID);
+        if (r >= LP.y0 && r <= LP.y1 && r !== rowData) pL(r, col, "│", C_RESID);
     }
+  };
+
+  // caixa explicativa + pull line apontando ao ponto destacado após a convergência
+  const drawCalloutBox = (pL, h) => {
+    const sc = lCol(h.x);
+    const sr = lRow(h.y);
+    const W = Math.max(h.msg1.length, h.msg2.length) + 4; // 1 borda + 1 padding em cada lado
+    const H = 4; // topo, 2 linhas de texto, base
+    // espelha o quadrante do ponto pra não cobri-lo; caso típico: ponto upper-right → caixa bottom-left
+    const starRight = sc > (LP.x0 + LP.x1) / 2;
+    const starUpper = sr < (LP.y0 + LP.y1) / 2;
+    const bx0 = starRight ? LP.x0 : LP.x1 - W + 1;
+    const bx1 = bx0 + W - 1;
+    const by0 = starUpper ? LP.y1 - H + 1 : LP.y0;
+    const by1 = by0 + H - 1;
+
+    for (let c = bx0 + 1; c < bx1; c++) {
+      pL(by0, c, "─", C_LINE);
+      pL(by1, c, "─", C_LINE);
+    }
+    for (let r = by0 + 1; r < by1; r++) {
+      pL(r, bx0, "│", C_LINE);
+      pL(r, bx1, "│", C_LINE);
+    }
+    pL(by0, bx0, "┌", C_LINE);
+    pL(by0, bx1, "┐", C_LINE);
+    pL(by1, bx0, "└", C_LINE);
+    pL(by1, bx1, "┘", C_LINE);
+
+    for (let i = 0; i < h.msg1.length; i++)
+      pL(by0 + 1, bx0 + 2 + i, h.msg1[i], C_LINE);
+    for (let i = 0; i < h.msg2.length; i++)
+      pL(by0 + 2, bx0 + 2 + i, h.msg2[i], C_LINE);
+
+    // pull line: âncora numa borda voltada ao ponto, segue reto e depois diagonal
+    const anchorCol = starRight ? bx1 - 2 : bx0 + 2;
+    const anchorRow = starUpper ? by0 : by1;
+    pL(anchorRow, anchorCol, starUpper ? "┴" : "┬", C_LINE);
+
+    const dr = starUpper ? -1 : 1;
+    const dc = starRight ? 1 : -1;
+    const diag = starUpper === starRight ? "/" : "\\";
+    const tr = sr - dr; // última célula antes do ★ (vertical)
+    const tc = sc - dc; // última célula antes do ★ (horizontal)
+    let r = anchorRow + dr;
+    let c = anchorCol + dc;
+    const absDy = Math.abs(tr - r);
+    const absDx = Math.abs(tc - c);
+    // saindo da caixa: trecho reto se uma dimensão é maior, depois diagonal até o ★
+    if (absDy > absDx) {
+      for (let i = 0; i < absDy - absDx; i++) {
+        pL(r, c, "│", C_LINE);
+        r += dr;
+      }
+    } else if (absDx > absDy) {
+      for (let i = 0; i < absDx - absDy; i++) {
+        pL(r, c, "─", C_LINE);
+        c += dc;
+      }
+    }
+    while (r !== tr || c !== tc) {
+      pL(r, c, diag, C_LINE);
+      r += dr;
+      c += dc;
+    }
+    pL(tr, tc, diag, C_LINE);
+  };
+
+  const drawStar = (pL, h) => {
+    pL(lRow(h.y), lCol(h.x), "*", C_LINE);
   };
 
   const gridToHtml = (g) =>
@@ -204,17 +295,23 @@ export function mount(root) {
     for (let r = 0; r <= LP.axr; r++) pL(r, LP.axc, "│");
     for (let c = LP.axc; c <= LP.x1 + 1; c++) pL(LP.axr, c, "─");
     pL(LP.axr, LP.axc, "└");
-    pL(0, LP.axc + 1, "y");
-    pL(LP.axr + 1, LP.x1 - 1, "x");
+    "sorvetes vendidos".split("").forEach((ch, i) => pL(0, LP.axc + 1 + i, ch));
+    "temperatura"
+      .split("")
+      .forEach((ch, i) => pL(LP.axr + 1, LP.x1 - 10 + i, ch));
 
     drawLine(pL);
     drawResiduals(pL);
     for (const [x, y] of DATA) pL(lRow(y), lCol(x), "*", C_POINT);
+    if (highlight) {
+      drawCalloutBox(pL, highlight);
+      drawStar(pL, highlight);
+    }
 
     for (let r = 0; r <= RP.axr; r++) pR(r, RP.axc, "│");
     for (let c = RP.axc; c <= RP.x1; c++) pR(RP.axr, c, "─");
     pR(RP.axr, RP.axc, "└");
-    "Perda".split("").forEach((ch, i) => pR(0, RP.axc + 1 + i, ch));
+    "Erro".split("").forEach((ch, i) => pR(0, RP.axc + 1 + i, ch));
     "iteração".split("").forEach((ch, i) => pR(RP.axr + 1, RP.x1 - 7 + i, ch));
 
     let prevRow = null;
@@ -248,9 +345,7 @@ export function mount(root) {
     }
 
     lossSpan.textContent =
-      hist.length > 0
-        ? "perda: " + hist[hist.length - 1].toFixed(4)
-        : "perda: —";
+      hist.length > 0 ? "erro: " + hist[hist.length - 1].toFixed(4) : "erro: —";
 
     preL.innerHTML = gridToHtml(gL);
     preR.innerHTML = gridToHtml(gR);
@@ -266,12 +361,14 @@ export function mount(root) {
     step = 0;
     lastStepTs = 0;
     doneTs = -1;
+    highlight = null;
   };
 
   reset();
 
   if (reduced) {
     for (let i = 0; i < MAX_ITER; i++) gdStep();
+    highlight = computeHighlight();
     render();
     return;
   }
@@ -286,7 +383,10 @@ export function mount(root) {
         gdStep();
         lastStepTs = ts;
       }
-      if (step >= MAX_ITER) doneTs = ts;
+      if (step >= MAX_ITER) {
+        highlight = computeHighlight();
+        doneTs = ts;
+      }
     }
     render();
     raf = requestAnimationFrame(tick);

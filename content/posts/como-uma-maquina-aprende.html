@@ -5,11 +5,11 @@
     }
     #eq_min {
         font-weight: bold;
-        color: #ff6b35;
+        color: #6fd1d7;
     }
     #eq_loss {
         font-weight: bold;
-        color: #6fd1d7;
+        color: #ff6b35;
     }
 </style>
 
@@ -41,8 +41,8 @@
     </p>
 
     <p class="equation">
-        $$f^* = \mathop{\color{#FF6B35}{\arg\min}}\limits_{\color{#59B292}{f \in
-        \mathcal{F}}} \color{#6FD1D7}{\tilde{L}(f)}$$
+        $$f^* = \mathop{\color{#6FD1D7}{\arg\min}}\limits_{\color{#59B292}{f \in
+        \mathcal{F}}} \color{#FF6B35}{\tilde{L}(f)}$$
     </p>
 
     <p class="post-body">
@@ -51,28 +51,68 @@
         <span id="eq_family">modelo </span> cada iteração.
     </p>
 
-    <figure id="loss-graph" class="post-figure" aria-label="Animação: otimizador descendo a função de perda"></figure>
+    <figure
+        id="loss-graph"
+        class="post-figure"
+        aria-label="Animação: otimizador descendo a função de perda"
+    ></figure>
 
     <p class="post-body">
-        O que um ChatGPT faz é exatamente isso: é um motor estocástico ajustado
-        sobre uma quantidade massiva de texto que produz saídas reproduzindo
-        padrões estatísticos encontrados nos dados, não compreendendo sentido.
-        Por isso, uma pergunta boba como "quantos 'a' tem em 'exatamente'?"
-        quebra o modelo. Uma atividade tão trivial como contar quantas letras
-        tem cada palavra não está presente no conjunto de dados de treino; ele
-        não tem como se adaptar a essa possibilidade.
+        Acima temos um modelo que chamamos de regressão linear. Nesse exemplo
+        imaginamos o eixo y como <strong>sorvetes vendidos</strong> e o eixo x
+        como <strong>temperatura</strong>. Intuitivamente, podemos imaginar que
+        quanto maior a temperatura, mais sorvetes são vendidos. O modelo tenta
+        encontrar a reta que melhor captura essa relação. Ajustando sua
+        inclinação para minimizar a diferença entre o que prevê e o que de fato
+        acontece. <strong>Ele se ajusta aos dados.</strong>
+    </p>
+
+    <p class="post-body">
+        Mesmo que esses modelos simples sejam ordens de magnitude menos
+        complexos que redes neurais profundas, muitos dos princípios se aplicam
+        em todo o espectro de aprendizado de maquina. De algum modo o que o
+        "ChatGPT" faz é exatamente isso: é um motor estocástico ajustado sobre
+        uma quantidade massiva de texto, que produz saídas reproduzindo padrões
+        estatísticos encontrados nos dados, sem compreender o sentido.
     </p>
     <p class="post-body">
-        No fundo, ele prevê qual é o token mais provável de vir em seguida. Todo
-        o “aprender” consiste em se ajustar para que essa predição se aproxime
-        cada vez mais da distribuição estatística observada nos dados. Não há,
-        em momento algum, um entendimento de sentido, uma conexão entre algo
-        (concreto ou abstrato) e uma experiência consciente externa.
+        Mesmo que seja discutivel as capacidade de um grande modelo de
+        linguagem, no fundo, ele prevê qual é a proxima palavra mais provável de
+        vir em seguida. Todo o “aprender” consiste em se ajustar para que essa
+        predição se aproxime cada vez mais da distribuição estatística observada
+        nos dados. Não há, em momento algum, um entendimento de sentido, uma
+        conexão entre algo (concreto ou abstrato) e uma experiência consciente
+        externa.
     </p>
     <p class="post-body">
         Aqui podemos ser mais radicais e observar que tal processo não se
         assemelha em nada ao aprendizado humano, computadores não aprendem. Eles
         se adaptam a dados através de força bruta ou algum ajuste estatístico.
+    </p>
+    <p class="post-body">
+        Um exemplo disso é o caso recente da Bixonimania. Em 15 de março de
+        2024, Almira Osmanovic, uma pesquisadora de Gothenburg, publicou dois
+        artigos fictícios em um site de preprints sobre uma condição fictícia,
+        uma condição que supostamente afeta os olhos por usar o computador por
+        muito tempo. Resultado: alguns anos depois, os artigos falsos foram
+        citados em publicações sérias e, quando questionados sobre a doença,
+        diversos modelos de linguagem foram complacentes, dizendo que a
+        bixonimania é de fato real.
+    </p>
+    <p class="post-body">
+        Diga-se de passagem que os artigos falsos publicados por ela citavam o
+        Professor Bob Esponja e foram patrocinados pela Sociedade do Anel,
+        inclusive havia um texto no começo do artigo dizendo explicitamente que
+        o artigo era falso.
+    </p>
+    <p class="post-body">
+        Ou seja, o modelo de linguagem, que aprendeu a reproduzir padrões
+        estatísticos na linguagem, está reproduzindo padrões estatísticos na
+        linguagem sem pensamento crítico nenhum. O grau de complexidade e escala
+        desses modelos gera o que chamamos de propriedades emergentes. Isto é,
+        Eles parecem pensar, parecem resolver problemas, parecem escrever, mas
+        no fundo é um processo mecânico tão elaborado que parece ser mais do que
+        é.
     </p>
     <p class="post-body">
         E caso você ache que seres humanos são assim, simples “computadores de
@@ -81,13 +121,6 @@
         como entendemos aquele fenômeno, quando antropomorfizamos esses
         artefatos, atribuindo agência e nos dirigindo a eles como indivíduos,
         nos distanciamos do que eles realmente são.
-    </p>
-    <p class="post-body">
-        Para ficar um pouco mais claro, vamos olhar para o artigo de Anoush
-        Margaryan (Copenhagen Business School) publicado na Technology in
-        Society, que torna essa diferença concreta. Margaryan propõe a tabela
-        abaixo, que confronta os mecanismos, processos e propriedades do
-        aprendizado humano com aquilo que algoritmos de ML efetivamente fazem:
     </p>
     <p class="post-body">
         Podemos imaginar tecnologias futuras que superem essas limitações
