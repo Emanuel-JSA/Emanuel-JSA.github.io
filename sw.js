@@ -1,4 +1,4 @@
-const CACHE = "sky-v4";
+const CACHE = "sky-v5";
 
 const STATIC = [
     "/",
@@ -21,6 +21,7 @@ const STATIC = [
     "/content/posts/como-uma-maquina-aprende/index.html",
     "/content/posts/como-uma-maquina-aprende/index.js",
     "/content/posts/como-uma-maquina-aprende/loss-graph-animation.js",
+    "/content/posts/como-uma-maquina-aprende/neural-network-animation.js",
     "/icons/icon-192.png",
     "/icons/icon-512.png",
     "/404.html",
