@@ -1,0 +1,8 @@
+// gerado por scripts/gen-posts.mjs — não edite manualmente
+export default [
+  {
+    slug: "como-uma-maquina-aprende",
+    title: "Como uma maquina aprende?",
+    date: "2026-05-08",
+  },
+];

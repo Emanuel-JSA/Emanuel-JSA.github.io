@@ -1,8 +1,8 @@
 import { mountDivider } from "../ui/divider.js";
 import { mountBot } from "../ui/bot.js";
+import posts from "/content/posts.js";
 
 export async function render() {
-  const posts = await fetch("/content/posts/index.json").then((r) => r.json());
 
   const postLinks = posts
     .map((p) => `<a class="post-title" href="/posts/${p.slug}">${p.title}</a>`)

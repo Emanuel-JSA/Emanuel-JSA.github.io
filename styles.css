@@ -167,3 +167,10 @@ canvas {
 .article-body {
     margin-bottom: 8rem;
 }
+
+.post-neural-network {
+    color: #fff;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}

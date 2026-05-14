@@ -1,4 +1,4 @@
-const CACHE = "sky-v3";
+const CACHE = "sky-v4";
 
 const STATIC = [
     "/",
@@ -17,9 +17,10 @@ const STATIC = [
     "/assets/ascii-bot-default.txt",
     "/assets/ascii-bot-blinking.txt",
     "/assets/ascii-bot-closed-eyes.txt",
-    "/content/posts/index.json",
-    "/content/posts/como-uma-maquina-aprende.html",
-    "/content/posts/como-uma-maquina-aprende.js",
+    "/content/posts.js",
+    "/content/posts/como-uma-maquina-aprende/index.html",
+    "/content/posts/como-uma-maquina-aprende/index.js",
+    "/content/posts/como-uma-maquina-aprende/loss-graph-animation.js",
     "/icons/icon-192.png",
     "/icons/icon-512.png",
     "/404.html",

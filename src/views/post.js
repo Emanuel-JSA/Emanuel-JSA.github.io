@@ -1,7 +1,7 @@
 import { mountDivider } from "../ui/divider.js";
 
 export async function render({ slug }) {
-  const res = await fetch(`/content/posts/${slug}.html`);
+  const res = await fetch(`/content/posts/${slug}/index.html`);
   if (!res.ok) {
     return `<div class="post-page"><p style="color:#fff;font-family:monospace">Post não encontrado.</p></div>`;
   }
@@ -24,7 +24,7 @@ export async function mount(el, { slug }) {
   if (divider) cleanups.push(mountDivider(divider));
 
   try {
-    const mod = await import(`/content/posts/${slug}.js`);
+    const mod = await import(`/content/posts/${slug}/index.js`);
     if (typeof mod.mount === "function") {
       cleanups.push(await mod.mount(el));
     }
