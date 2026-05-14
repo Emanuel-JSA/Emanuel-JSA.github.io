@@ -174,4 +174,14 @@ canvas {
     width: fit-content;
     margin: 2rem auto;
     overflow-x: auto;
+    font-size: clamp(6px, 1.7vw, 13px);
+    line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+    #loss-graph > div > div:first-child {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 1.5em;
+    }
 }
