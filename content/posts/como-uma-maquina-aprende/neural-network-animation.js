@@ -6,7 +6,7 @@ export function mount(root) {
     { row: 2, text: "doença" },
     { row: 4, text: "príncipe" },
     { row: 6, text: "cobra" },
-    { row: 8, text: "tal sujeito tem tal caracteristica" },
+    { row: 8, text: "o homem tem osteoporose" },
     { row: 10, text: "Bixonimania" },
   ];
 

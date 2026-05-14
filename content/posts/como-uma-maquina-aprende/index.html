@@ -12,6 +12,46 @@
         font-weight: bold;
         color: #ff6b35;
     }
+
+    .references {
+        margin-top: 4em;
+        padding-top: 1.5em;
+        border-top: 1px dashed #555;
+        font-family: monospace;
+        font-size: clamp(12px, 1vw, 13px);
+        line-height: 1.5;
+        color: #999;
+    }
+
+    .references h2 {
+        margin: 0 0 1em;
+        font-size: clamp(13px, 1.05vw, 14px);
+        font-weight: normal;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #777;
+    }
+
+    .references ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .references li {
+        margin: 0 0 0.8em;
+        padding-left: 1.2em;
+        text-indent: -1.2em;
+    }
+
+    .references a {
+        color: #4a9eff;
+        text-decoration: none;
+    }
+
+    .references a:hover {
+        text-decoration: underline;
+    }
 </style>
 
 <article class="article-body">
@@ -139,4 +179,28 @@
         máquinas. E máquinas, a gente projeta, audita, regula e, eventualmente,
         desliga.
     </p>
+
+    <section class="references" aria-label="Referências">
+        <h2>Referências</h2>
+        <ul>
+            <li>
+                <a
+                    href="https://doi.org/10.1016/j.techsoc.2026.103342"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Margaryan, A. (2026). Why machine learning is a misnomer.
+                    <em>Technology in Society</em>, 87, 103342.</a
+                >
+            </li>
+            <li>
+                <a
+                    href="https://www.nature.com/articles/d41586-026-01100-y"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Scientists invented a fake disease. AI told people it was
+                    real.</a
+                >
+            </li>
+        </ul>
+    </section>
 </article>
