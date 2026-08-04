@@ -74,6 +74,7 @@ export function createModal({ title, body }) {
   function onTitleDown(e) {
     if (closed) return;
     if (e.button !== undefined && e.button !== 0) return;
+    if (e.target.closest(".modal-close")) return;
     const r = root.getBoundingClientRect();
     offsetX = e.clientX - r.left;
     offsetY = e.clientY - r.top;
