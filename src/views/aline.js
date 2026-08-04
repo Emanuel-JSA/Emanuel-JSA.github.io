@@ -1,6 +1,7 @@
 import { html, css } from "../util/html.js";
 import { mountDesktop } from "../ui/aline/desktop.js";
 import { createModal } from "../ui/aline/modal.js";
+import { createPixelatingImage } from "../ui/aline/pixelate.js";
 
 const styles = css`
   * {
@@ -203,7 +204,7 @@ const styles = css`
 
   .desktop-icon-img {
     width: 64px;
-    height: 64px;
+    height: auto;
     image-rendering: pixelated;
     pointer-events: none;
   }
@@ -272,12 +273,18 @@ const styles = css`
     justify-content: center;
   }
 
-  .modal-body img {
+  .modal-body img,
+  .modal-body canvas {
     display: block;
     max-width: min(80vw, 800px);
     max-height: 70vh;
     object-fit: contain;
-    image-rendering: auto;
+  }
+
+  .modal-body canvas {
+    image-rendering: pixelated;
+    width: auto;
+    height: auto;
   }
 `;
 
@@ -345,17 +352,15 @@ export async function mount(el) {
       modalAberto.el.style.zIndex = String(zTop);
       return;
     }
-    const img = document.createElement("img");
-    img.src = "/assets/aline_dither.jpg";
-    img.alt = "";
-    img.draggable = false;
-    const modal = createModal({ title: "meuAmor.jpg", body: img });
+    const pixelate = createPixelatingImage("/assets/aline_dither.jpg");
+    const modal = createModal({ title: "meuAmor.jpg", body: pixelate.el });
     zTop += 1;
     modal.el.style.zIndex = String(zTop);
     content.appendChild(modal.el);
     modalAberto = modal;
     const observer = new MutationObserver(() => {
       if (!modal.el.isConnected) {
+        pixelate.cancel();
         if (modalAberto === modal) modalAberto = null;
         observer.disconnect();
       }
