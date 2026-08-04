@@ -176,6 +176,12 @@ const styles = css`
     width: 100%;
     height: 100%;
     min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding-top: 0.5rem;
   }
 
   .desktop-icon {
@@ -215,11 +221,7 @@ const styles = css`
 
   .modal {
     position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    min-width: 280px;
-    max-width: min(80vw, 840px);
+    width: min(80vw, 720px);
     border: 1px solid var(--yellow);
     background: var(--bg);
     color: var(--yellow);
@@ -286,6 +288,25 @@ const styles = css`
     width: auto;
     height: auto;
   }
+
+  .modal-body pre {
+    margin: 0;
+    padding: 0;
+    font-family: monospace;
+    font-size: clamp(0.8rem, 3vw, 0.95rem);
+    line-height: 1.5;
+    letter-spacing: 0.5px;
+    color: var(--yellow);
+    background: transparent;
+    text-shadow: none;
+    text-transform: none;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-width: min(80vw, 640px);
+    max-height: 70vh;
+    overflow: auto;
+    text-align: start;
+  }
 `;
 
 export async function render() {
@@ -343,37 +364,87 @@ export async function mount(el) {
   btn.addEventListener("click", tentarEntrar);
 
   let unmountDesktop = null;
-  let modalAberto = null;
   let zTop = 1000;
+  const modais = new Set();
+
+  function trazerPraFrente(modal) {
+    zTop += 1;
+    modal.el.style.zIndex = String(zTop);
+  }
 
   function abrirImagem() {
-    if (modalAberto) {
-      zTop += 1;
-      modalAberto.el.style.zIndex = String(zTop);
+    const existente = [...modais].find((m) => m.el.dataset.app === "meuAmor.jpg");
+    if (existente) {
+      trazerPraFrente(existente);
       return;
     }
     const pixelate = createPixelatingImage("/assets/aline_dither.jpg");
     const modal = createModal({ title: "meuAmor.jpg", body: pixelate.el });
-    zTop += 1;
-    modal.el.style.zIndex = String(zTop);
+    trazerPraFrente(modal);
     content.appendChild(modal.el);
-    modalAberto = modal;
+    modais.add(modal);
     const observer = new MutationObserver(() => {
       if (!modal.el.isConnected) {
         pixelate.cancel();
-        if (modalAberto === modal) modalAberto = null;
+        modais.delete(modal);
         observer.disconnect();
       }
     });
     observer.observe(content, { childList: true });
   }
 
+  async function abrirTexto() {
+    const existente = [...modais].find((m) => m.el.dataset.app === "texto.txt");
+    if (existente) {
+      trazerPraFrente(existente);
+      return;
+    }
+    const res = await fetch("/content/aline/texto.txt");
+    const txt = await res.text();
+    const pre = document.createElement("pre");
+    pre.textContent = txt;
+    const modal = createModal({ title: "texto.txt", body: pre });
+    trazerPraFrente(modal);
+    content.appendChild(modal.el);
+    modais.add(modal);
+    const observer = new MutationObserver(() => {
+      if (!modal.el.isConnected) {
+        modais.delete(modal);
+        observer.disconnect();
+      }
+    });
+    observer.observe(content, { childList: true });
+  }
+
+  function abrir(app) {
+    if (app === "meuAmor.jpg") abrirImagem();
+    else if (app === "texto.txt") abrirTexto();
+  }
+
+  function onKeyGlobal(e) {
+    if (e.key !== "Escape") return;
+    if (!modais.size) return;
+    const topo = [...modais].reduce((a, b) =>
+      parseInt(a.el.style.zIndex || "0", 10) >=
+      parseInt(b.el.style.zIndex || "0", 10)
+        ? a
+        : b,
+    );
+    topo.close();
+  }
+  document.addEventListener("keydown", onKeyGlobal);
+
+  const icons = [
+    { app: "meuAmor.jpg", icon: "/assets/icon_pic.png", label: "meuAmor.jpg" },
+    { app: "texto.txt", icon: "/assets/icon_txt.png", label: "texto.txt" },
+  ];
+
   function tentarEntrar() {
     const senha = (input.dataset.value || "").toLowerCase();
     if (senha === "aline") {
       loginContainer.hidden = true;
       content.hidden = false;
-      unmountDesktop = mountDesktop(content, { onOpen: abrirImagem });
+      unmountDesktop = mountDesktop(content, { icons, onOpen: abrir });
       return;
     }
     input.dataset.value = "";
@@ -382,7 +453,8 @@ export async function mount(el) {
   }
 
   return function unmount() {
-    if (modalAberto) modalAberto.close();
+    document.removeEventListener("keydown", onKeyGlobal);
+    modais.forEach((m) => m.close());
     if (unmountDesktop) unmountDesktop();
   };
 }

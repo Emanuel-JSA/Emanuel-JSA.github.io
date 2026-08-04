@@ -1,6 +1,9 @@
 // Modal arrastável no estilo de .login de views/aline.js.
 // Visual: borda 1px var(--yellow), background var(--bg), monospace uppercase
 // com text-shadow, titlebar amarela igual à .login-top-bar.
+// Posicionamento: `position: fixed` com left/top em pixels. Na criação,
+// centraliza calculando o centro do viewport. Drag ajusta left/top.
+// Drag via Pointer Events (mouse + touch unificados).
 
 let zCounter = 1000;
 
@@ -8,9 +11,11 @@ export function createModal({ title, body }) {
   const root = document.createElement("div");
   root.className = "modal";
   root.dataset.app = title;
+  root.style.touchAction = "none";
 
   const titlebar = document.createElement("div");
   titlebar.className = "modal-titlebar";
+  titlebar.style.touchAction = "none";
 
   const titleEl = document.createElement("span");
   titleEl.className = "modal-title";
@@ -34,63 +39,67 @@ export function createModal({ title, body }) {
 
   root.append(titlebar, bodyEl);
 
-  // Estado
-  let closed = false;
-  let dragging = false;
-  let dragOffsetX = 0;
-  let dragOffsetY = 0;
-  let positioned = false;
   const z = ++zCounter;
   root.style.zIndex = String(z);
 
-  // Drag
+  // Centraliza via pixels (não transform) para evitar ambiguidade no drag
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const w = root.offsetWidth || 280;
+  const h = root.offsetHeight || 200;
+  root.style.position = "fixed";
+  root.style.left = `${(vw - w) / 2}px`;
+  root.style.top = `${(vh - h) / 2}px`;
+  root.style.right = "auto";
+  root.style.bottom = "auto";
+  root.style.transform = "none";
+
+  let closed = false;
+  let pointerId = null;
+  let dragging = false;
+  let offsetX = 0;
+  let offsetY = 0;
+
   function onMove(e) {
-    if (!dragging || closed) return;
-    root.style.left = `${e.clientX - dragOffsetX}px`;
-    root.style.top = `${e.clientY - dragOffsetY}px`;
-    root.style.transform = "none";
+    if (e.pointerId !== pointerId || !dragging || closed) return;
+    root.style.left = `${e.clientX - offsetX}px`;
+    root.style.top = `${e.clientY - offsetY}px`;
   }
-  function onUp() {
+  function onUp(e) {
+    if (e.pointerId !== pointerId) return;
     dragging = false;
+    pointerId = null;
     titlebar.style.cursor = "grab";
   }
   function onTitleDown(e) {
     if (closed) return;
-    if (e.button !== 0) return;
+    if (e.button !== undefined && e.button !== 0) return;
     const r = root.getBoundingClientRect();
-    if (!positioned) {
-      // converte de centralizado para absoluto
-      root.style.left = `${r.left}px`;
-      root.style.top = `${r.top}px`;
-      root.style.transform = "none";
-      positioned = true;
-    }
-    dragOffsetX = e.clientX - r.left;
-    dragOffsetY = e.clientY - r.top;
+    offsetX = e.clientX - r.left;
+    offsetY = e.clientY - r.top;
+    pointerId = e.pointerId;
     dragging = true;
     titlebar.style.cursor = "grabbing";
+    try {
+      titlebar.setPointerCapture(pointerId);
+    } catch {}
     e.preventDefault();
   }
 
-  function onKey(e) {
-    if (closed) return;
-    if (e.key === "Escape") close();
-  }
-
-  titlebar.addEventListener("mousedown", onTitleDown);
+  titlebar.addEventListener("pointerdown", onTitleDown);
   closeBtn.addEventListener("click", close);
-  document.addEventListener("mousemove", onMove);
-  document.addEventListener("mouseup", onUp);
-  document.addEventListener("keydown", onKey);
+  document.addEventListener("pointermove", onMove);
+  document.addEventListener("pointerup", onUp);
+  document.addEventListener("pointercancel", onUp);
 
   function close() {
     if (closed) return;
     closed = true;
-    titlebar.removeEventListener("mousedown", onTitleDown);
+    titlebar.removeEventListener("pointerdown", onTitleDown);
     closeBtn.removeEventListener("click", close);
-    document.removeEventListener("mousemove", onMove);
-    document.removeEventListener("mouseup", onUp);
-    document.removeEventListener("keydown", onKey);
+    document.removeEventListener("pointermove", onMove);
+    document.removeEventListener("pointerup", onUp);
+    document.removeEventListener("pointercancel", onUp);
     if (root.parentNode) root.parentNode.removeChild(root);
   }
 

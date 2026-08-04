@@ -1,34 +1,47 @@
-// Desktop com 1 ícone ("imagem"), arrastável. Click (sem drag) -> onOpen("imagem").
+// Desktop com N ícones arrastáveis. Click (sem drag) -> onOpen(app).
 // Container pai tem pointer-events: none; o root reativa com pointer-events: auto.
+// Drag via Pointer Events (mouse + touch unificados).
 
 const DRAG_THRESHOLD = 4;
 
-export function mountDesktop(container, { onOpen }) {
+export function mountDesktop(container, { icons, onOpen }) {
   const root = document.createElement("div");
   root.className = "desktop";
 
+  const cleanups = [];
+  for (const { app, icon, label } of icons) {
+    cleanups.push(makeIcon(root, { app, icon, label, onOpen }));
+  }
+  container.appendChild(root);
+
+  return function unmount() {
+    cleanups.forEach((fn) => fn());
+    if (root.parentNode) root.parentNode.removeChild(root);
+  };
+}
+
+function makeIcon(root, { app, icon, label, onOpen }) {
   const btn = document.createElement("button");
   btn.className = "desktop-icon";
   btn.type = "button";
-  btn.dataset.app = "meuAmor.jpg";
-  btn.setAttribute("aria-label", "meuAmor.jpg");
+  btn.dataset.app = app;
+  btn.setAttribute("aria-label", label);
+  btn.style.touchAction = "none";
 
   const img = document.createElement("img");
   img.className = "desktop-icon-img";
-  img.src = "/assets/icon_pic.png";
+  img.src = icon;
   img.alt = "";
   img.draggable = false;
 
-  const label = document.createElement("span");
-  label.className = "desktop-icon-label";
-  label.textContent = "meuAmor.jpg";
+  const lbl = document.createElement("span");
+  lbl.className = "desktop-icon-label";
+  lbl.textContent = label;
 
-  btn.append(img, label);
+  btn.append(img, lbl);
   root.appendChild(btn);
-  container.appendChild(root);
 
-  // Estado do drag
-  let active = false;
+  let pointerId = null;
   let dragging = false;
   let positioned = false;
   let startX = 0;
@@ -38,7 +51,7 @@ export function mountDesktop(container, { onOpen }) {
   let moved = 0;
 
   function onDown(e) {
-    if (e.button !== 0) return;
+    if (e.button !== undefined && e.button !== 0) return;
     const r = btn.getBoundingClientRect();
     if (!positioned) {
       btn.style.position = "absolute";
@@ -50,14 +63,17 @@ export function mountDesktop(container, { onOpen }) {
     startY = e.clientY;
     downBtnLeft = parseFloat(btn.style.left) || 0;
     downBtnTop = parseFloat(btn.style.top) || 0;
-    active = true;
+    pointerId = e.pointerId;
     dragging = false;
     moved = 0;
+    try {
+      btn.setPointerCapture(pointerId);
+    } catch {}
     e.preventDefault();
   }
 
   function onMove(e) {
-    if (!active) return;
+    if (e.pointerId !== pointerId) return;
     const dx = e.clientX - startX;
     const dy = e.clientY - startY;
     const dist = Math.hypot(dx, dy);
@@ -72,28 +88,24 @@ export function mountDesktop(container, { onOpen }) {
     moved = dist;
   }
 
-  function onUp() {
-    if (!active) return;
+  function onUp(e) {
+    if (e.pointerId !== pointerId) return;
     if (dragging) btn.style.cursor = "grab";
-    active = false;
-    // dragging fica true até o click distinguir, mas o click só dispara
-    // se moved <= threshold — então resetamos aqui mesmo
-    if (moved <= DRAG_THRESHOLD) {
-      // click genuíno: não estamos arrastando, abre o modal
-      onOpen?.("imagem");
-    }
+    if (moved <= DRAG_THRESHOLD) onOpen?.(app);
     dragging = false;
     moved = 0;
+    pointerId = null;
   }
 
-  btn.addEventListener("mousedown", onDown);
-  document.addEventListener("mousemove", onMove);
-  document.addEventListener("mouseup", onUp);
+  btn.addEventListener("pointerdown", onDown);
+  btn.addEventListener("pointermove", onMove);
+  btn.addEventListener("pointerup", onUp);
+  btn.addEventListener("pointercancel", onUp);
 
-  return function unmount() {
-    btn.removeEventListener("mousedown", onDown);
-    document.removeEventListener("mousemove", onMove);
-    document.removeEventListener("mouseup", onUp);
-    if (root.parentNode) root.parentNode.removeChild(root);
+  return function cleanup() {
+    btn.removeEventListener("pointerdown", onDown);
+    btn.removeEventListener("pointermove", onMove);
+    btn.removeEventListener("pointerup", onUp);
+    btn.removeEventListener("pointercancel", onUp);
   };
 }

@@ -1,4 +1,4 @@
-const CACHE = "sky-v9";
+const CACHE = "sky-v13";
 
 const STATIC = [
     "/",
@@ -19,7 +19,9 @@ const STATIC = [
     "/src/ui/aline/pixelate.js",
     "/assets/ascii-bem-vindo.txt",
     "/assets/icon_pic.png",
+    "/assets/icon_txt.png",
     "/assets/aline_dither.jpg",
+    "/content/aline/texto.txt",
     "/assets/ascii-bot-default.txt",
     "/assets/ascii-bot-blinking.txt",
     "/assets/ascii-bot-closed-eyes.txt",
