@@ -15,7 +15,12 @@ async function navigate(path) {
   }
 
   const main = document.getElementById("view");
-  main.innerHTML = await view.render(params);
+  const out = await view.render(params);
+  if (typeof out === "string") {
+    main.innerHTML = out;
+  } else if (out instanceof Node) {
+    main.replaceChildren(out);
+  }
 
   if (view.mount) {
     currentUnmount = (await view.mount(main, params)) ?? null;
