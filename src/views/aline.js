@@ -455,14 +455,14 @@ export async function mount(el) {
     modal.el.style.zIndex = String(zTop);
   }
 
-  function abrirImagem() {
-    const existente = [...modais].find((m) => m.el.dataset.app === "meuAmor.jpg");
+  function abrirImagem(app, src) {
+    const existente = [...modais].find((m) => m.el.dataset.app === app);
     if (existente) {
       trazerPraFrente(existente);
       return;
     }
-    const pixelate = createPixelatingImage("/assets/aline_dither.jpg");
-    const modal = createModal({ title: "meuAmor.jpg", body: pixelate.el });
+    const pixelate = createPixelatingImage(src);
+    const modal = createModal({ title: app, body: pixelate.el });
     trazerPraFrente(modal);
     content.appendChild(modal.el);
     modais.add(modal);
@@ -500,7 +500,8 @@ export async function mount(el) {
   }
 
   function abrir(app) {
-    if (app === "meuAmor.jpg") abrirImagem();
+    if (app === "meuAmor.jpg") abrirImagem(app, "/assets/aline_dither.jpg");
+    else if (app === "nos.jpeg") abrirImagem(app, "/assets/we_dither.jpg");
     else if (app === "texto.txt") abrirTexto();
   }
 
@@ -519,6 +520,7 @@ export async function mount(el) {
 
   const icons = [
     { app: "meuAmor.jpg", icon: "/assets/icon_pic.png", label: "meuAmor.jpg" },
+    { app: "nos.jpeg", icon: "/assets/icon_pic.png", label: "nos.jpeg" },
     { app: "texto.txt", icon: "/assets/icon_txt.png", label: "texto.txt" },
   ];
 

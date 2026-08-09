@@ -14,6 +14,12 @@ export function mountDesktop(container, { icons, onOpen }) {
   }
   container.appendChild(root);
 
+  // Desktop inicia os ícones em coluna no canto superior esquerdo.
+  for (const [index, btn] of [...root.querySelectorAll(".desktop-icon")].entries()) {
+    btn.style.position = "absolute";
+    btn.style.left = "0px";
+    btn.style.top = `${index * 110}px`;
+  }
   return function unmount() {
     cleanups.forEach((fn) => fn());
     if (root.parentNode) root.parentNode.removeChild(root);
@@ -93,13 +99,6 @@ function makeIcon(root, { app, icon, label, onOpen }) {
   btn.addEventListener("pointermove", onMove);
   btn.addEventListener("pointerup", onUp);
   btn.addEventListener("pointercancel", onUp);
-
-  // Tira o ícone do fluxo para modais e outros filhos não moverem os demais.
-  const rootRect = root.getBoundingClientRect();
-  const btnRect = btn.getBoundingClientRect();
-  btn.style.position = "absolute";
-  btn.style.left = `${btnRect.left - rootRect.left}px`;
-  btn.style.top = `${btnRect.top - rootRect.top}px`;
 
   return function cleanup() {
     btn.removeEventListener("pointerdown", onDown);
