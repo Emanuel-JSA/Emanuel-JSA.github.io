@@ -43,7 +43,6 @@ function makeIcon(root, { app, icon, label, onOpen }) {
 
   let pointerId = null;
   let dragging = false;
-  let positioned = false;
   let startX = 0;
   let startY = 0;
   let downBtnLeft = 0;
@@ -52,13 +51,6 @@ function makeIcon(root, { app, icon, label, onOpen }) {
 
   function onDown(e) {
     if (e.button !== undefined && e.button !== 0) return;
-    const r = btn.getBoundingClientRect();
-    if (!positioned) {
-      btn.style.position = "absolute";
-      btn.style.left = `${r.left - root.getBoundingClientRect().left}px`;
-      btn.style.top = `${r.top - root.getBoundingClientRect().top}px`;
-      positioned = true;
-    }
     startX = e.clientX;
     startY = e.clientY;
     downBtnLeft = parseFloat(btn.style.left) || 0;
@@ -101,6 +93,13 @@ function makeIcon(root, { app, icon, label, onOpen }) {
   btn.addEventListener("pointermove", onMove);
   btn.addEventListener("pointerup", onUp);
   btn.addEventListener("pointercancel", onUp);
+
+  // Tira o ícone do fluxo para modais e outros filhos não moverem os demais.
+  const rootRect = root.getBoundingClientRect();
+  const btnRect = btn.getBoundingClientRect();
+  btn.style.position = "absolute";
+  btn.style.left = `${btnRect.left - rootRect.left}px`;
+  btn.style.top = `${btnRect.top - rootRect.top}px`;
 
   return function cleanup() {
     btn.removeEventListener("pointerdown", onDown);
