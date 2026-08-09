@@ -1,4 +1,4 @@
-const CACHE = "sky-v13";
+const CACHE = "sky-v14";
 
 const STATIC = [
     "/",
