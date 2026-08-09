@@ -307,6 +307,88 @@ const styles = css`
     overflow: auto;
     text-align: start;
   }
+
+  .crt-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 2px,
+      rgba(0, 0, 0, 0.45) 2px,
+      rgba(0, 0, 0, 0.45) 3px
+    );
+    box-shadow:
+      inset 0 0 140px 50px rgba(0, 0, 0, 0.9),
+      inset 0 0 70px 12px rgba(0, 0, 0, 0.7);
+    animation: crt-flicker 6s steps(60) infinite;
+    mix-blend-mode: multiply;
+  }
+
+  .crt-overlay::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 28%;
+    background: linear-gradient(
+      transparent,
+      rgba(253, 164, 0, 0.08),
+      transparent
+    );
+    animation: crt-roll 7s linear infinite;
+  }
+
+  @keyframes crt-flicker {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    3% {
+      opacity: 0.9;
+    }
+    6% {
+      opacity: 1;
+    }
+    48% {
+      opacity: 0.97;
+    }
+    50% {
+      opacity: 0.82;
+    }
+    52% {
+      opacity: 1;
+    }
+    78% {
+      opacity: 0.95;
+    }
+  }
+
+  @keyframes crt-roll {
+    0% {
+      top: -30%;
+    }
+    100% {
+      top: 130%;
+    }
+  }
+
+  .aline.container .login-title,
+  .aline.container .login-input,
+  .aline.container .login-input::placeholder,
+  .aline.container .login-btn,
+  .aline.container .login-erro,
+  .aline.container .desktop-icon,
+  .aline.container .desktop-icon-label,
+  .aline-content h1,
+  .aline-content p {
+    text-shadow:
+      1.5px 0 rgba(255, 0, 80, 0.7),
+      -1.5px 0 rgba(0, 200, 255, 0.7),
+      0 0 6px var(--yellow);
+  }
 `;
 
 export async function render() {
@@ -330,6 +412,7 @@ export async function render() {
       </div>
     </div>
     <div class="aline-content" hidden></div>
+    <div class="crt-overlay"></div>
   </div>`;
 }
 
